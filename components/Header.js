@@ -1,28 +1,39 @@
 import Link from "next/link";
 import styled from "styled-components";
 import Center from "@/components/Center";
-import {useContext, useState} from "react";
-import {CartContext} from "@/components/CartContext";
+import { useContext, useState } from "react";
+import { CartContext } from "@/components/CartContext";
 import BarsIcon from "@/components/icons/Bars";
+import Image from "next/image";
 
 const StyledHeader = styled.header`
   background-color: #222;
 `;
 const Logo = styled(Link)`
-  color:#fff;
-  text-decoration:none;
+  color: #fff;
+  text-decoration: none;
+  font-size: x-large;
   position: relative;
   z-index: 3;
+  display: flex;
+  align-items: center; /* Vertically align the logo and image */
+`;
+const LogoText = styled.span`
+  margin-left: 10px; /* Add some spacing between the logo image and text */
 `;
 const Wrapper = styled.div`
   display: flex;
+  align-items: center; /* Vertically align the logo and navigation */
   justify-content: space-between;
   padding: 20px 0;
 `;
 const StyledNav = styled.nav`
-  ${props => props.mobileNavActive ? `
+  ${(props) =>
+    props.mobileNavActive
+      ? `
     display: block;
-  ` : `
+  `
+      : `
     display: none;
   `}
   gap: 15px;
@@ -41,18 +52,19 @@ const StyledNav = styled.nav`
 `;
 const NavLink = styled(Link)`
   display: block;
-  color:#aaa;
-  text-decoration:none;
+  color: #aaa;
+  text-decoration: none;
+  font-size: large;
   padding: 10px 0;
   @media screen and (min-width: 768px) {
-    padding:0;
+    padding: 0;
   }
 `;
 const NavButton = styled.button`
   background-color: transparent;
   width: 30px;
   height: 30px;
-  border:0;
+  border: 0;
   color: white;
   cursor: pointer;
   position: relative;
@@ -63,21 +75,26 @@ const NavButton = styled.button`
 `;
 
 export default function Header() {
-  const {cartProducts} = useContext(CartContext);
-  const [mobileNavActive,setMobileNavActive] = useState(false);
+  const { cartProducts } = useContext(CartContext);
+  const [mobileNavActive, setMobileNavActive] = useState(false);
+
   return (
     <StyledHeader>
       <Center>
         <Wrapper>
-          <Logo href={'/'}>Ecommerce</Logo>
+          <Logo href={"/"}>
+            <Image width={32} height={32} src="/homelogo.png" alt="logo" />
+            <LogoText>Aahar Kart</LogoText>
+          </Logo>
+
           <StyledNav mobileNavActive={mobileNavActive}>
-            <NavLink href={'/'}>Home</NavLink>
-            <NavLink href={'/products'}>All products</NavLink>
-            <NavLink href={'/categories'}>Categories</NavLink>
-            <NavLink href={'/account'}>Account</NavLink>
-            <NavLink href={'/cart'}>Cart ({cartProducts.length})</NavLink>
+            <NavLink href={"/"}>Home</NavLink>
+            <NavLink href={"/products"}>Products</NavLink>
+            <NavLink href={"/categories"}>Categories</NavLink>
+            <NavLink href={"/account"}>Account</NavLink>
+            <NavLink href={"/cart"}>Cart ({cartProducts.length})</NavLink>
           </StyledNav>
-          <NavButton onClick={() => setMobileNavActive(prev => !prev)}>
+          <NavButton onClick={() => setMobileNavActive((prev) => !prev)}>
             <BarsIcon />
           </NavButton>
         </Wrapper>
